@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STEM Learning Platform</title>
+    <link rel="manifest" href="/manifest.json">
+    <link rel="stylesheet" href="/styles/main.css">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <meta name="theme-color" content="#2563eb">
+    <meta name="description" content="Gamified STEM learning platform for rural schools">
+</head>
+<body>
+    <div id="app">
+        <!-- Loading Screen -->
+        <div id="loading-screen" class="loading-screen">
+            <div class="loading-spinner"></div>
+            <h2>Loading STEM Platform...</h2>
+            <p id="loading-status">Initializing offline capabilities...</p>
+        </div>
+
+        <!-- Login Screen -->
+        <div id="login-screen" class="screen hidden">
+            <div class="login-container">
+                <div class="logo">
+                    <h1>🚀 STEM Learning</h1>
+                    <p>Gamified Education Platform</p>
+                </div>
+                
+                <form id="login-form" class="login-form">
+                    <div class="form-group">
+                        <label for="user-type">I am a:</label>
+                        <select id="user-type" required>
+                            <option value="">Select role</option>
+                            <option value="student">Student</option>
+                            <option value="teacher">Teacher</option>
+                            <option value="admin">Admin</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="username">Username:</label>
+                        <input type="text" id="username" required placeholder="Enter your username">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="password">Password:</label>
+                        <input type="password" id="password" required placeholder="Enter your password">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="language">Language:</label>
+                        <select id="language">
+                            <option value="en">English</option>
+                            <option value="es">Español</option>
+                            <option value="fr">Français</option>
+                            <option value="hi">हिन्दी</option>
+                        </select>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">Login</button>
+                </form>
+                
+                <div class="offline-indicator">
+                    <span id="connection-status" class="status-offline">🔴 Offline</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Student Dashboard -->
+        <div id="student-dashboard" class="screen hidden">
+            <header class="header">
+                <div class="user-info">
+                    <h2 id="student-name">Welcome, Student!</h2>
+                    <div class="stats">
+                        <span class="stat">
+                            <span class="stat-icon">⭐</span>
+                            <span id="student-points">0</span> points
+                        </span>
+                        <span class="stat">
+                            <span class="stat-icon">🏆</span>
+                            Level <span id="student-level">1</span>
+                        </span>
+                    </div>
+                </div>
+                <button id="logout-btn" class="btn btn-secondary">Logout</button>
+            </header>
+
+            <main class="main-content">
+                <section class="progress-section">
+                    <h3>Your Progress</h3>
+                    <div class="progress-grid">
+                        <div class="progress-card">
+                            <h4>Mathematics</h4>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 0%"></div>
+                            </div>
+                            <p>0/8 modules completed</p>
+                        </div>
+                        <div class="progress-card">
+                            <h4>Science</h4>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 0%"></div>
+                            </div>
+                            <p>0/6 modules completed</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="modules-section">
+                    <h3>Available Modules</h3>
+                    <div id="modules-grid" class="modules-grid">
+                        <!-- Modules will be loaded dynamically -->
+                    </div>
+                </section>
+
+                <section class="achievements-section">
+                    <h3>Recent Achievements</h3>
+                    <div id="achievements-list" class="achievements-list">
+                        <!-- Achievements will be loaded dynamically -->
+                    </div>
+                </section>
+            </main>
+        </div>
+
+        <!-- Teacher Dashboard -->
+        <div id="teacher-dashboard" class="screen hidden">
+            <header class="header">
+                <div class="user-info">
+                    <h2 id="teacher-name">Teacher Dashboard</h2>
+                    <div class="stats">
+                        <span class="stat">
+                            <span class="stat-icon">👥</span>
+                            <span id="class-size">0</span> students
+                        </span>
+                        <span class="stat">
+                            <span class="stat-icon">📊</span>
+                            <span id="avg-engagement">0%</span> engagement
+                        </span>
+                    </div>
+                </div>
+                <button id="teacher-logout-btn" class="btn btn-secondary">Logout</button>
+            </header>
+
+            <main class="main-content">
+                <div class="dashboard-tabs">
+                    <button class="tab-btn active" data-tab="overview">Overview</button>
+                    <button class="tab-btn" data-tab="students">Students</button>
+                    <button class="tab-btn" data-tab="analytics">Analytics</button>
+                    <button class="tab-btn" data-tab="assignments">Assignments</button>
+                </div>
+
+                <div id="overview-tab" class="tab-content active">
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <h4>Class Performance</h4>
+                            <div class="stat-value" id="class-performance">0%</div>
+                            <div class="stat-change positive">+5% this week</div>
+                        </div>
+                        <div class="stat-card">
+                            <h4>Active Students</h4>
+                            <div class="stat-value" id="active-students">0</div>
+                            <div class="stat-change">out of 25</div>
+                        </div>
+                        <div class="stat-card">
+                            <h4>Modules Completed</h4>
+                            <div class="stat-value" id="modules-completed">0</div>
+                            <div class="stat-change positive">+12 this week</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="students-tab" class="tab-content">
+                    <div class="students-list">
+                        <h3>Student Progress</h3>
+                        <div id="students-table" class="students-table">
+                            <!-- Student data will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+
+                <div id="analytics-tab" class="tab-content">
+                    <div class="analytics-content">
+                        <h3>Learning Analytics</h3>
+                        <div class="chart-container">
+                            <canvas id="engagement-chart"></canvas>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="progress-chart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="assignments-tab" class="tab-content">
+                    <div class="assignments-content">
+                        <h3>Create Assignment</h3>
+                        <form id="assignment-form" class="assignment-form">
+                            <div class="form-group">
+                                <label for="assignment-title">Assignment Title:</label>
+                                <input type="text" id="assignment-title" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="assignment-modules">Select Modules:</label>
+                                <div id="module-selection" class="module-selection">
+                                    <!-- Module checkboxes will be loaded here -->
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="assignment-due-date">Due Date:</label>
+                                <input type="date" id="assignment-due-date" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Create Assignment</button>
+                        </form>
+                    </div>
+                </div>
+            </main>
+        </div>
+
+        <!-- Module Player -->
+        <div id="module-player" class="screen hidden">
+            <header class="module-header">
+                <button id="back-to-dashboard" class="btn btn-secondary">← Back</button>
+                <h2 id="module-title">Module Title</h2>
+                <div class="module-progress">
+                    <span id="module-progress-text">Question 1 of 10</span>
+                    <div class="progress-bar">
+                        <div id="module-progress-bar" class="progress-fill"></div>
+                    </div>
+                </div>
+            </header>
+
+            <main class="module-content">
+                <div id="module-container">
+                    <!-- Module content will be loaded here -->
+                </div>
+            </main>
+
+            <footer class="module-footer">
+                <div class="module-stats">
+                    <span class="stat">⭐ <span id="current-points">0</span></span>
+                    <span class="stat">🏆 Level <span id="current-level">1</span></span>
+                    <span class="stat">⏱️ <span id="time-spent">0:00</span></span>
+                </div>
+                <div class="module-actions">
+                    <button id="hint-btn" class="btn btn-secondary">💡 Hint</button>
+                    <button id="next-question-btn" class="btn btn-primary">Next →</button>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <!-- Service Worker Registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(registration => {
+                        console.log('SW registered: ', registration);
+                    })
+                    .catch(registrationError => {
+                        console.log('SW registration failed: ', registrationError);
+                    });
+            });
+        }
+    </script>
+
+    <script src="/js/app.js"></script>
+    <script src="/js/auth.js"></script>
+    <script src="/js/student-dashboard.js"></script>
+    <script src="/js/teacher-dashboard.js"></script>
+    <script src="/js/module-player.js"></script>
+    <script src="/js/offline-storage.js"></script>
+    <script src="/js/gamification.js"></script>
+    <script src="/js/i18n.js"></script>
+</body>
+</html>
